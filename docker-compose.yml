@@ -1,7 +1,6 @@
 version: '3.8'
 
 services:
-  # Наш кастомный AI-бэкенд (FastAPI + ASR + Агенты)
   ai-backend:
     build:
       context: .
@@ -11,12 +10,12 @@ services:
       - "8000:8000"
     volumes:
       - .:/app
-      # Кэшируем модели whisper на хосте, чтобы они не скачивались заново при перезапуске контейнера
       - whisper_model_cache:/root/.cache/huggingface
     env_file:
       - .env
     environment:
       - PYTHONUNBUFFERED=1
+      - HF_TOKEN=${HF_TOKEN}
     restart: always
     networks:
       - ai-network

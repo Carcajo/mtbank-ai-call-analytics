@@ -2,6 +2,7 @@ import os
 import requests
 from pydantic import BaseModel
 
+
 class Pipeline:
     class Valves(BaseModel):
         # Внутри Docker-сети бэкенд доступен по имени контейнера
