@@ -1,0 +1,57 @@
+version: '3.8'
+
+services:
+  # Наш кастомный AI-бэкенд (FastAPI + ASR + Агенты)
+  ai-backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: mtbank-ai-backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+      # Кэшируем модели whisper на хосте, чтобы они не скачивались заново при перезапуске контейнера
+      - whisper_model_cache:/root/.cache/huggingface
+    env_file:
+      - .env
+    environment:
+      - PYTHONUNBUFFERED=1
+    restart: always
+    networks:
+      - ai-network
+  pipelines:
+    image: ghcr.io/open-webui/pipelines:main
+    container_name: mtbank-pipelines
+    ports:
+      - "9099:9099"
+    volumes:
+      - ./pipelines:/app/pipelines
+      - ./test_data:/app/test_data
+    restart: always
+
+  open-webui:
+    image: ghcr.io/open-webui/open-webui:main
+    container_name: mtbank-open-webui
+    ports:
+      - "3000:8080"
+    volumes:
+      - open-webui-data:/app/backend/data
+      - ./test_data:/app/backend/test_data
+    environment:
+      - ENABLE_OLLAMA=false
+      - OPENAI_API_BASE_URL=http://ai-backend:8000/v1
+      - OPENAI_API_KEY=fake-key-for-webui
+    restart: always
+    depends_on:
+      - ai-backend
+    networks:
+      - ai-network
+
+volumes:
+  whisper_model_cache:
+  open-webui-data:
+
+networks:
+  ai-network:
+    driver: bridge
