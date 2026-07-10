@@ -21,6 +21,6 @@ def get_llm():
         openai_api_base="https://openrouter.ai/api/v1",
         openai_api_key=api_key,
         model_name="qwen/qwen-2.5-7b-instruct",
-        temperature=0.1,
+        temperature=0.0,
         max_tokens=500,
     )

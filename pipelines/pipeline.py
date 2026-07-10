@@ -5,7 +5,6 @@ from pydantic import BaseModel
 
 class Pipeline:
     class Valves(BaseModel):
-        # Внутри Docker-сети бэкенд доступен по имени контейнера
         API_URL: str = "http://mtbank-ai-backend:8000/analyze"
 
     def __init__(self):
@@ -19,8 +18,7 @@ class Pipeline:
 
     def pipe(self, user_message: str, model_id: str, messages: list, body: dict):
         file_path = user_message.strip()
-        
-        # Проверяем, видит ли пайплайн аудиофайл
+
         if not os.path.exists(file_path):
             yield f"❌ **Ошибка:** Файл `{file_path}` не найден. Проверьте путь (например: test_data/call_dialog.m4a)."
             return
@@ -37,8 +35,7 @@ class Pipeline:
                 return
                 
             data = response.json()
-            
-            # Рендерим Markdown-отчет
+
             md = f"### 📊 Результаты анализа звонка\n\n"
             md += f"**Тематика:** {data['classification']['topic']}\n"
             
