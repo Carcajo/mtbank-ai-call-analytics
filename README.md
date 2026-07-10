@@ -275,7 +275,7 @@ Benefits:
 The project was developed and tested with:
 
 ```text
-Python 3.10+
+Python 3.11+
 Docker 24+
 Docker Compose
 ```
@@ -383,7 +383,7 @@ Services started:
 Once started successfully:
 
 ```text
-http://localhost:8000/docs
+https://mtbank-ai-call-analytics-production.up.railway.app/docs
 ```
 
 provides interactive Swagger documentation.
@@ -453,8 +453,8 @@ Example:
 
 ```bash
 curl -X POST \
-  -F "file=@test_data/call_dialog.m4a" \
-  http://localhost:8000/analyze
+  -F "file=@test_data/call_dialog.m4a"\
+  https://mtbank-ai-call-analytics-production.up.railway.app/analyze
 ```
 
 ---
@@ -753,10 +753,10 @@ Additional formats can be added through FFmpeg.
 After deployment the following services become available:
 
 | Service    | URL                           |
-| ---------- | ----------------------------- |
-| Swagger UI | http://localhost:8000/docs    |
-| REST API   | http://localhost:8000/analyze |
-| OpenWebUI  | Configurable                  |
+| ---------- | --- |
+| Swagger UI | https://mtbank-ai-call-analytics-production.up.railway.app/docs    |
+| REST API   | https://mtbank-ai-call-analytics-production.up.railway.app/analyze |
+| OpenWebUI  | https://open-webui-production-73c8.up.railway.app/                  |
 
 ---
 
